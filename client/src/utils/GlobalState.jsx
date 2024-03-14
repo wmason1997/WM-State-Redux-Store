@@ -16,21 +16,21 @@
 //   return <Provider value={[state, dispatch]} {...props} />;
 // };
 
-// const useStoreContext = () => {
+// const StoreProvider = () => {
 //   return useContext(StoreContext);
 // };
 
-// export { StoreProvider, useStoreContext };
+// export { StoreProvider, StoreProvider };
 
-import React from 'react';
+// import React from "react";
 
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
 // Import Redux store frrom the file created in /utils
-import store from './store';
+import store from "./store";
 
 const StoreProvider = (props) => {
   return <Provider store={store} {...props} />;
-}
+};
 
 export default StoreProvider;
