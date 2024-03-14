@@ -8,5 +8,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './reducers';
 
 // According to https://redux.js.org/tutorials/fundamentals/part-1-overview
+// configureStore({
+//     reducer: rootReducer
+// })
 
-export default configureStore(rootReducer);
+// Commenting this out to try the above
+export default  configureStore({
+         reducer: rootReducer
+     });
