@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers";
-import { StoreProvider } from "../../utils/GlobalState";
+import StoreProvider from "../../utils/GlobalState";
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import ProductItem from "../ProductItem";
-import { StoreProvider } from "../../utils/GlobalState";
+import StoreProvider  from "../../utils/GlobalState";
 import { UPDATE_PRODUCTS } from "../../utils/actions";
 import { useQuery } from "@apollo/client";
 import { QUERY_PRODUCTS } from "../../utils/queries";
