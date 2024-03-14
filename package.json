@@ -17,6 +17,7 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.1",
     "@testing-library/react": "^14.2.1",
     "happy-dom": "^13.8.2",
     "react-redux": "^9.1.0",

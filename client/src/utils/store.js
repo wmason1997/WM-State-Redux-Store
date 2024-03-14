@@ -1,7 +1,12 @@
 // Creates a Redux store that holds the state of the app. Only one store should exist.
-import { createStore } from 'redux';
+// import { createStore } from 'redux';
+
+// from https://redux.js.org/introduction/why-rtk-is-redux-today
+import { configureStore } from '@reduxjs/toolkit';
 
 // Importing the reducer file that is mostly unchanged
 import reducers from './reducers';
 
-export default createStore(reducers);
+// According to https://redux.js.org/tutorials/fundamentals/part-1-overview
+
+export default configureStore(reducers);
