@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductItem from "../ProductItem";
 import { UPDATE_PRODUCTS } from "../../utils/actions";
 import { useQuery } from "@apollo/client";
@@ -15,6 +15,7 @@ function ProductList() {
   const currentCategory = store.getState().currentCategory;
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const [products, setProducts] = useState(''); // Initialize products state
 
   useEffect(() => {
     if (data) {
@@ -35,18 +36,24 @@ function ProductList() {
     }
   }, [data, loading, dispatch]);
 
+  useEffect(() => {
+    if (store.getState().products) {
+      setProducts(store.getState().products); // Update products state when products in the Redux store change
+    }
+  }, [store]);
+
   function filterProducts() {
-    const products = store.getState().products;
     if (!currentCategory) {
       return products;
-    }
+    } 
+
     return products.filter((product) => product.category._id === currentCategory);
   }
 
   return (
     <div className="my-2">
       <h2>Our Products:</h2>
-      {store.getState().products.length ? (
+      {products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (
             <ProductItem
