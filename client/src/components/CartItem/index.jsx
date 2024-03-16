@@ -1,33 +1,25 @@
-import StoreProvider from "../../utils/GlobalState";
-import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
-import { idbPromise } from "../../utils/helpers";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFromCart, updateCartQuantity } from '../../utils/actions';
+import { idbPromise } from '../../utils/helpers';
 
 const CartItem = ({ item }) => {
-  const [, dispatch] = StoreProvider();
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.cart);
 
-  const removeFromCart = (item) => {
-    dispatch({
-      type: REMOVE_FROM_CART,
-      _id: item._id,
-    });
-    idbPromise("cart", "delete", { ...item });
+  const handleRemoveFromCart = (item) => {
+    dispatch(removeFromCart(item._id));
+    idbPromise('cart', 'delete', { ...item });
   };
 
-  const onChange = (e) => {
+  const handleQuantityChange = (e) => {
     const value = e.target.value;
-    if (value === "0") {
-      dispatch({
-        type: REMOVE_FROM_CART,
-        _id: item._id,
-      });
-      idbPromise("cart", "delete", { ...item });
+    if (value === '0') {
+      dispatch(removeFromCart(item._id));
+      idbPromise('cart', 'delete', { ...item });
     } else {
-      dispatch({
-        type: UPDATE_CART_QUANTITY,
-        _id: item._id,
-        purchaseQuantity: parseInt(value),
-      });
-      idbPromise("cart", "put", { ...item, purchaseQuantity: parseInt(value) });
+      dispatch(updateCartQuantity(item._id, parseInt(value)));
+      idbPromise('cart', 'put', { ...item, purchaseQuantity: parseInt(value) });
     }
   };
 
@@ -46,12 +38,12 @@ const CartItem = ({ item }) => {
             type="number"
             placeholder="1"
             value={item.purchaseQuantity}
-            onChange={onChange}
+            onChange={handleQuantityChange}
           />
           <span
             role="img"
             aria-label="trash"
-            onClick={() => removeFromCart(item)}
+            onClick={() => handleRemoveFromCart(item)}
           >
             🗑️
           </span>
