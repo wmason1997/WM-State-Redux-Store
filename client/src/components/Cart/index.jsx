@@ -6,13 +6,14 @@ import { idbPromise } from "../../utils/helpers";
 import CartItem from "../CartItem";
 import Auth from "../../utils/auth";
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
-import { useStore, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./style.css";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
-  const store = useStore();
+  const cart = useSelector(state => state.cart)
+  const cartOpen = useSelector(state => state.cartOpen);
   const dispatch = useDispatch();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
@@ -30,10 +31,10 @@ const Cart = () => {
       dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
     }
 
-    if (!store.getState().cart.length) {
+    if (!cart.length) {
       getCart();
     }
-  }, [store, dispatch]);
+  }, [dispatch]);
 
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
@@ -41,7 +42,7 @@ const Cart = () => {
 
   function calculateTotal() {
     let sum = 0;
-    store.getState().cart.forEach((item) => {
+    cart.forEach((item) => {
       sum += item.price * item.purchaseQuantity;
     });
     return sum.toFixed(2);
@@ -50,7 +51,7 @@ const Cart = () => {
   function submitCheckout() {
     const productIds = [];
 
-    store.getState().cart.forEach((item) => {
+    cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
@@ -61,7 +62,7 @@ const Cart = () => {
     });
   }
 
-  if (!store.getState().cartOpen) {
+  if (!cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <span role="img" aria-label="trash">
@@ -77,9 +78,9 @@ const Cart = () => {
         [close]
       </div>
       <h2>Shopping Cart</h2>
-      {store.getState().cart.length ? (
+      {cart.length ? (
         <div>
-          {store.getState().cart.map((item) => (
+          {cart.map((item) => (
             <CartItem key={item._id} item={item} />
           ))}
 
