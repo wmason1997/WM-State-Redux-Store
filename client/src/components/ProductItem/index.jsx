@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addToCart, updateCartQuantity } from '../../redux/actions/cartActions';
+import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { pluralize } from '../../utils/helpers';
 
 function ProductItem({ item }) {
@@ -12,9 +12,9 @@ function ProductItem({ item }) {
   const handleAddToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
     if (itemInCart) {
-      dispatch(updateCartQuantity(_id, parseInt(itemInCart.purchaseQuantity) + 1));
+      dispatch(UPDATE_CART_QUANTITY(_id, parseInt(itemInCart.purchaseQuantity) + 1));
     } else {
-      dispatch(addToCart({ ...item, purchaseQuantity: 1 }));
+      dispatch(ADD_TO_CART({ ...item, purchaseQuantity: 1 }));
     }
   };
 

@@ -12,7 +12,7 @@ import "./style.css";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
-  const cart = useSelector(state => state.cart)
+  const cart = useSelector(state => state.cart);
   const cartOpen = useSelector(state => state.cartOpen);
   const dispatch = useDispatch();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
@@ -28,13 +28,13 @@ const Cart = () => {
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise("cart", "get");
-      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+      dispatch({ type: ADD_MULTIPLE_TO_CART, products: cart || [] });
     }
 
-    if (!cart.length) {
+    if (!cart || cart.length === 0) {
       getCart();
     }
-  }, [dispatch]);
+  }, [dispatch, cart]);
 
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
@@ -50,7 +50,6 @@ const Cart = () => {
 
   function submitCheckout() {
     const productIds = [];
-
     cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
@@ -78,15 +77,13 @@ const Cart = () => {
         [close]
       </div>
       <h2>Shopping Cart</h2>
-      {cart.length ? (
+      {cart && cart.length ? (
         <div>
           {cart.map((item) => (
             <CartItem key={item._id} item={item} />
           ))}
-
           <div className="flex-row space-between">
             <strong>Total: ${calculateTotal()}</strong>
-
             {Auth.loggedIn() ? (
               <button onClick={submitCheckout}>Checkout</button>
             ) : (
