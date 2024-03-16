@@ -1,20 +1,24 @@
-import Auth from "../../utils/auth";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import Auth from '../../utils/auth';
 
 function Nav() {
+  const handleLogout = () => {
+    Auth.logout();
+    // Additional logic for logout if needed
+  };
 
   function showNavigation() {
     if (Auth.loggedIn()) {
       return (
         <ul className="flex-row">
           <li className="mx-1">
-            <Link to="/orderHistory">
+            <NavLink to="/orderHistory" activeClassName="active">
               Order History
-            </Link>
+            </NavLink>
           </li>
           <li className="mx-1">
-            {/* this is not using the Link component to logout or user and then refresh the application to the start */}
-            <a href="/" onClick={() => Auth.logout()}>
+            <a href="/" onClick={handleLogout}>
               Logout
             </a>
           </li>
@@ -24,14 +28,14 @@ function Nav() {
       return (
         <ul className="flex-row">
           <li className="mx-1">
-            <Link to="/signup">
+            <NavLink to="/signup" activeClassName="active">
               Signup
-            </Link>
+            </NavLink>
           </li>
           <li className="mx-1">
-            <Link to="/login">
+            <NavLink to="/login" activeClassName="active">
               Login
-            </Link>
+            </NavLink>
           </li>
         </ul>
       );
@@ -46,10 +50,7 @@ function Nav() {
           -Shop-Shop
         </Link>
       </h1>
-
-      <nav>
-        {showNavigation()}
-      </nav>
+      <nav>{showNavigation()}</nav>
     </header>
   );
 }
