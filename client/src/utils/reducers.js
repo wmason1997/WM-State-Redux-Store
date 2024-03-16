@@ -105,10 +105,12 @@ const currentCategoryReducer = (state = '', action) => {
 
 // Combine all reducers into a single rootReducer and should make this application handle state more efficiently with Redux
 const rootReducer = combineReducers({
-  products: productsReducer,
-  cart: cartReducer,
-  categories: categoriesReducer,
-  currentCategory: currentCategoryReducer
+  reducer: {
+    products: productsReducer,
+    cart: cartReducer,
+    categories: categoriesReducer,
+    currentCategory: currentCategoryReducer
+  }
 });
 
 export default rootReducer;
